@@ -1,0 +1,57 @@
+version: '3'
+
+services:
+
+  frontend:
+
+    image: bftsmart/fabric-frontend:amd64-1.3.0
+    build:
+
+      context: ./
+      dockerfile: Dockerfile-frontend
+
+    depends_on:
+      - common
+
+  orderingnode:
+
+    image: bftsmart/fabric-orderingnode:amd64-1.3.0
+    build:
+
+      context: ./
+      dockerfile: Dockerfile-orderingnode
+
+    depends_on:
+      - common
+
+  fabric:
+
+    image: bftsmart/fabric:amd64-1.3.0
+    build:
+
+      context: ./
+      dockerfile: Dockerfile-fabric
+
+  peer:
+
+    image: bftsmart/fabric-peer:amd64-1.3.0
+    build:
+
+      context: ./
+      dockerfile: Dockerfile-peer
+
+  common:
+
+    image: bftsmart/fabric-common:amd64-1.3.0
+    build:
+
+      context: ./
+      dockerfile: Dockerfile-common
+
+  tools:
+
+    image: bftsmart/fabric-tools:amd64-1.3.0
+    build:
+
+      context: ./
+      dockerfile: Dockerfile-tools
