@@ -63,7 +63,7 @@ peer:
     id: jdoe
 
     # The networkId allows for logical seperation of networks
-    networkId: dev
+    networkId: bft_network
 
     # The Address at local network interface this Peer will listen on.
     # By default, it will listen on all network interfaces
@@ -128,7 +128,7 @@ peer:
         # Important: The endpoints here have to be endpoints of peers in the same
         # organization, because the peer would refuse connecting to these endpoints
         # unless they are in the same organization as the peer.
-        bootstrap: 127.0.0.1:7051
+        bootstrap: 0.peer.lasige.bft:7051
 
         # NOTE: orgLeader and useLeaderElection parameters are mutual exclusive.
         # Setting both to true would result in the termination of the peer
@@ -151,7 +151,8 @@ peer:
         # Overrides the endpoint that the peer publishes to peers
         # in its organization. For peers in foreign organizations
         # see 'externalEndpoint'
-        endpoint:
+        endpoint: 0.peer.lasige.bft:7051
+
         # Maximum count of blocks stored in memory
         maxBlockCountToStore: 100
         # Max time between consecutive message pushes(unit: millisecond)
@@ -315,7 +316,7 @@ peer:
                 KeyStore:
 
     # Path on the file system where peer will find MSP local configurations
-    mspConfigPath: msp
+    mspConfigPath: /bft-config/fabric/msp
 
     # Identifier of the local MSP
     # ----!!!!IMPORTANT!!!-!!!IMPORTANT!!!-!!!IMPORTANT!!!!----
@@ -324,7 +325,7 @@ peer:
     # to match the name of one of the MSPs in each of the channel
     # that this peer is a member of. Otherwise this peer's messages
     # will not be identified as valid by other nodes.
-    localMspId: SampleOrg
+    localMspId: LaSIGEMSP
 
     # CLI common client config options
     client:
@@ -606,7 +607,7 @@ ledger:
     # stateDatabase - options are "goleveldb", "CouchDB"
     # goleveldb - default state database stored in goleveldb.
     # CouchDB - store state database in CouchDB
-    stateDatabase: CouchDB
+    stateDatabase: goleveldb
     # Limit on the number of records to return per query
     totalQueryLimit: 100000
     couchDBConfig:
