@@ -1,0 +1,12 @@
+
+# criar bloco gênesis
+
+configtxgen -asOrg IBM -channelID channel47 -configPath="/bft-config/" -outputBlock="/bft-config/genesisblock" -profile BFTGenesis
+
+# gerar channel.tx
+configtxgen -profile BFTChannel -outputCreateChannelTx channel.tx -channelID channel47 -configPath="/bft-config/"
+
+# gerar anchor.tx
+configtxgen -profile BFTChannel -outputAnchorPeersUpdate anchor.tx -channelID jcschannel -asOrg IBM -configPath="/bft-config/"
+
+
