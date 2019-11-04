@@ -152,7 +152,6 @@ peer:
         # in its organization. For peers in foreign organizations
         # see 'externalEndpoint'
         endpoint: 0.peer.lasige.bft:7051
-
         # Maximum count of blocks stored in memory
         maxBlockCountToStore: 100
         # Max time between consecutive message pushes(unit: millisecond)
