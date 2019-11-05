@@ -104,7 +104,6 @@ Organizations:
                 Rule: "OR('IBMMSP.admin')"
 
         AnchorPeers:
-
             - Host: 0.peer.ibm.bft
               Port: 7051
 
@@ -287,8 +286,8 @@ Orderer: &OrdererDefaults
     # participation in ordering.
     # NOTE: In the solo case, this should be a one-item list.
     Addresses:
-        - bft.frontend.1000:7050
-        - bft.frontend.2000:7050
+        - 1000.frontend.bft:7050
+        - 2000.frontend.bft:7050
 
     # Batch Timeout: The amount of time to wait before creating a batch.
     BatchTimeout: 2s
@@ -471,5 +470,4 @@ Profiles:
             Organizations:
                 - *LaSIGE
                 - *IBM
-
 

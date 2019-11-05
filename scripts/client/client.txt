@@ -1,14 +1,16 @@
-# parar todos os containers se necessário
-sudo docker container stop $(sudo docker container ls -qa)
+#criar rede 
+docker network create -d bridge bft_network
 
 # gerar com administrador
-cryptogen generate --config=./crypto-config.yaml
-configtxgen -profile BFTGenesis -channelID channel47 -outputBlock genesisblock -configPath="/bft-config/"
+cd bft-config/
+cryptogen generate --config=/bft-config/crypto-config.yaml
+configtxgen -profile BFTGenesis -channelID channel47 -outputBlock /bft-config/genesisblock -configPath="/bft-config/"
 
 # copiar os arquivos para o config de cada nodo da rede
+# sudo ./copiar-configuracao.sh
 
-# os certificados dentro da pasta msp
-
+#executar o sistema
+sudo ~/fabric-orderingservice/scripts/mate-run.sh
 #################### admin
 # inicializar as instâncias da rede e rodar os comandos a seguir
 configtxgen -profile BFTChannel -outputCreateChannelTx channel.tx -channelID channel47 -configPath="/bft-config/"
