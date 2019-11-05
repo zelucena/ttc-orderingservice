@@ -3,10 +3,13 @@ sudo docker container stop $(sudo docker container ls -qa)
 
 # gerar com administrador
 cryptogen generate --config=./crypto-config.yaml
-configtxgen -profile BFTGenesis -channelID bftchannel -outputBlock genesisblock -configPath="/bft-config/"
+configtxgen -profile BFTGenesis -channelID channel47 -outputBlock genesisblock -configPath="/bft-config/"
 
 # copiar os arquivos para o config de cada nodo da rede
+
 # os certificados dentro da pasta msp
+
+#################### admin
 # inicializar as instâncias da rede e rodar os comandos a seguir
 configtxgen -profile BFTChannel -outputCreateChannelTx channel.tx -channelID channel47 -configPath="/bft-config/"
 configtxgen -profile BFTChannel -outputAnchorPeersUpdate anchor.tx -channelID channel47 -asOrg IBM -configPath="/bft-config/"
@@ -16,5 +19,12 @@ peer channel update -o 1000.frontend.bft:7050 -c channel47 -f anchor.tx
 
 # juntar ao bloco gênesis
 peer channel join -b /bft-config/genesisblock
+
+# instalar chaincode
+go get github.com/zelucena/TTCFabric
 peer chaincode install -n VotacaoContract -v 0.411 -p github.com/zelucena/TTCFabric
 peer chaincode instantiate -o 2000.frontend.bft:7050 -C channel47 -n VotacaoContract -v 0.411 -c '{"Args":["init"]}'
+
+
+###################### users
+
