@@ -1,5 +1,5 @@
 #!/bin/bash
-#docker container stop $(docker container ls -qa)
+# sudo docker container stop $(sudo docker container ls -qa)
 mate-terminal -t 0.node.bft -e ./node0.sh &
 sleep 5
 mate-terminal -t 1.node.bft -e ./node1.sh &
@@ -17,10 +17,7 @@ sleep 5
 
 mate-terminal -t 0.ibm.peer.bft -e ./peer0.sh &
 mate-terminal -t 1.ibm.peer.bft -e ./peer1.sh &
-mate-terminal -t 0.lasige.peer.bft -e ./peer2.sh &
-mate-terminal -t 1.lasige.peer.bft -e ./peer3.sh &
 
-mate-terminal -t 0.ibm.cli -e ./client0.sh &
-mate-terminal -t 0.lasige.cli -e ./client1.sh &
-mate-terminal -t 0.ibm.admin.cli -e ./admin0.sh
-mate-terminal -t 1.ibm.admin.cli -e ./admin1.sh
+mate-terminal -t 0.ibm.cli -e ./client0.sh
+# mate-terminal -t 0.ibm.admin.cli -e ./admin0.sh &
+

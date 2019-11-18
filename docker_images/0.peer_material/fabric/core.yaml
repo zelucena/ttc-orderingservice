@@ -60,7 +60,7 @@ logging:
 peer:
 
     # The Peer id is used for identifying this Peer instance.
-    id: jdoe
+    id: peer0
 
     # The networkId allows for logical seperation of networks
     networkId: bft_network
@@ -201,7 +201,7 @@ peer:
         reconnectInterval: 25s
         # This is an endpoint that is published to peers outside of the organization.
         # If this isn't set, the peer will not be known to other organizations.
-        externalEndpoint:
+        externalEndpoint: 0.peer.ibm.bft:8051
         # Leader election service configuration
         election:
             # Longest time peer waits for stable membership during leader election startup (unit: second)

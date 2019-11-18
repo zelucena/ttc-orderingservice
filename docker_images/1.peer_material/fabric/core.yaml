@@ -60,7 +60,7 @@ logging:
 peer:
 
     # The Peer id is used for identifying this Peer instance.
-    id: jdoe
+    id: peer1
 
     # The networkId allows for logical seperation of networks
     networkId: bft_network

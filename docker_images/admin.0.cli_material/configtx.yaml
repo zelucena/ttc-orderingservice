@@ -56,32 +56,6 @@ Organizations:
                 Type: Signature
                 Rule: "OR('FrontendsMSP.admin')"
 
-    - &LaSIGE
-
-        Name: LaSIGE
-
-        ID: LaSIGEMSP
-
-        MSPDir: /bft-config/crypto-config/peerOrganizations/lasige.bft/msp
-
-        Policies:
-            Readers:
-                Type: Signature
-                Rule: "OR('LaSIGEMSP.member')"
-
-            Writers:
-                Type: Signature
-                Rule: "OR('LaSIGEMSP.member')"
-
-            Admins:
-                Type: Signature
-                Rule: "OR('LaSIGEMSP.admin')"
-
-        AnchorPeers:
-
-            - Host: 0.peer.lasige.bft
-              Port: 7051
-
     - &IBM
 
         Name: IBM
@@ -104,6 +78,7 @@ Organizations:
                 Rule: "OR('IBMMSP.admin')"
 
         AnchorPeers:
+
             - Host: 0.peer.ibm.bft
               Port: 7051
 
@@ -279,7 +254,7 @@ Orderer: &OrdererDefaults
 
     # Orderer Type: The orderer implementation to start.
     # Available types are "solo" and "kafka".
-    OrdererType: solo
+    OrdererType: bftsmart
 
     # Addresses here is a nonexhaustive list of orderers the peers and clients can
     # connect to. Adding/removing nodes from this list has no impact on their
@@ -460,7 +435,6 @@ Profiles:
         Consortiums:
             BFTConsortium:
                 Organizations:
-                    - *LaSIGE
                     - *IBM
 
     BFTChannel:
@@ -468,6 +442,5 @@ Profiles:
         Application:
             <<: *ApplicationDefaults
             Organizations:
-                - *LaSIGE
                 - *IBM
 

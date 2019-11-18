@@ -1,31 +1,31 @@
 #criar rede 
 docker network create -d bridge bft_network
-
+# sudo docker container stop $(sudo docker container ls -qa)
 # gerar com administrador
 cd bft-config/
 cryptogen generate --config=/bft-config/crypto-config.yaml
-configtxgen -profile BFTGenesis -channelID channel47 -outputBlock /bft-config/genesisblock -configPath="/bft-config/"
+configtxgen -profile BFTGenesis -channelID sysvote -outputBlock /bft-config/genesisblock -configPath="/bft-config/"
 
 # copiar os arquivos para o config de cada nodo da rede
-# sudo ./copiar-configuracao.sh
+# cd /home/jose/fabric-orderingservice/scripts/ && sudo ./copiar-configuracao.sh
 
 #executar o sistema
 sudo ~/fabric-orderingservice/scripts/mate-run.sh
 #################### admin
 # inicializar as instâncias da rede e rodar os comandos a seguir
-configtxgen -profile BFTChannel -outputCreateChannelTx channel.tx -channelID channel47 -configPath="/bft-config/"
-configtxgen -profile BFTChannel -outputAnchorPeersUpdate anchor.tx -channelID channel47 -asOrg IBM -configPath="/bft-config/"
+configtxgen -profile BFTChannel -outputCreateChannelTx channel.tx -channelID sysvote -configPath="/bft-config/"
+configtxgen -profile BFTChannel -outputAnchorPeersUpdate anchor.tx -channelID sysvote -asOrg IBM -configPath="/bft-config/"
 
-peer channel create -o 1000.frontend.bft:7050 -c channel47 -f channel.tx
-peer channel update -o 1000.frontend.bft:7050 -c channel47 -f anchor.tx
+peer channel create -o 1000.frontend.bft:7050 -c sysvote -f channel.tx
+peer channel update -o 1000.frontend.bft:7050 -c sysvote -f anchor.tx
 
 # juntar ao bloco gênesis
 peer channel join -b /bft-config/genesisblock
 
 # instalar chaincode
 go get github.com/zelucena/TTCFabric
-peer chaincode install -n VotacaoContract -v 0.411 -p github.com/zelucena/TTCFabric
-peer chaincode instantiate -o 2000.frontend.bft:7050 -C channel47 -n VotacaoContract -v 0.411 -c '{"Args":["init"]}'
+peer chaincode install -n VotacaoContract -v 1.4.2 -p github.com/zelucena/TTCFabric
+peer chaincode instantiate -o 2000.frontend.bft:7050 -C sysvote -n VotacaoContract -v 1.4.2 -c '{"Args":["init"]}'
 
 
 ###################### users

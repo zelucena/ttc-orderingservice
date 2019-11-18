@@ -9,9 +9,7 @@ OrdererOrgs:
   # Ordering nodes
   # ---------------------------------------------------------------------------
   - Name: OrderingNodes
-
     Domain: node.bft
-    #Prefix: test
 
     Template:
 
@@ -23,7 +21,6 @@ OrdererOrgs:
   # ---------------------------------------------------------------------------
   - Name: Frontends
     Domain: frontend.bft
-
     Specs:
       - Hostname: 1000
       - Hostname: 2000
@@ -33,18 +30,6 @@ OrdererOrgs:
 # "PeerOrgs" - Organizations for the endorsing/comitting peers
 # ---------------------------------------------------------------------------
 PeerOrgs:
-
-  - Name: LaSIGE
-    Domain: lasige.bft
-    EnableNodeOUs: true
-    Template:
-
-      Count: 2
-      Hostname: "{{.Index}}.peer"
-
-    Users:
-      Count: 1
-
   - Name: IBM
     Domain: ibm.bft
     EnableNodeOUs: true
@@ -57,57 +42,3 @@ PeerOrgs:
     Users:
       Count: 1
 
-
-Organizations:
-
-    - &LaSIGE
-
-        Name: LaSIGE
-
-        ID: LaSIGEMSP
-
-        MSPDir: /bft-config/fabric/LaSIGE/msp
-
-        Policies:
-            Readers:
-                Type: Signature
-                Rule: "OR('LaSIGEMSP.member')"
-
-            Writers:
-                Type: Signature
-                Rule: "OR('LaSIGEMSP.member')"
-
-            Admins:
-                Type: Signature
-                Rule: "OR('LaSIGEMSP.admin')"
-
-        AnchorPeers:
-
-            - Host: 0.peer.lasige.bft
-              Port: 7051
-
-    - &IBM
-
-        Name: IBM
-
-        ID: IBMMSP
-
-        MSPDir: /bft-config/fabric/IBM/msp
-
-        Policies:
-            Readers:
-                Type: Signature
-                Rule: "OR('IBMMSP.member')"
-
-            Writers:
-                Type: Signature
-                Rule: "OR('IBMMSP.member')"
-
-            Admins:
-                Type: Signature
-                Rule: "OR('IBMMSP.admin')"
-
-        AnchorPeers:
-
-            - Host: 0.peer.ibm.bft
-              Port: 7051

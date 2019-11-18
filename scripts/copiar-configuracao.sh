@@ -7,10 +7,6 @@
 #cli
 cp /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/genesisblock /home/jose/fabric-orderingservice/docker_images/0.cli_material/genesisblock
 
-cp /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/genesisblock /home/jose/fabric-orderingservice/docker_images/1.cli_material/genesisblock
-
-cp /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/genesisblock /home/jose/fabric-orderingservice/docker_images/admin.1.cli_material/genesisblock
-
 #nodes
 cp /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/genesisblock /home/jose/fabric-orderingservice/docker_images/0.node_material/genesisblock
 
@@ -27,51 +23,47 @@ cp /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/genesisb
 cp /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/genesisblock /home/jose/fabric-orderingservice/docker_images/2000.frontend_material/genesisblock
 
 ########### copiar crypto-material
-
 #clients
-rm -R /home/jose/fabric-orderingservice/docker_images/0.cli_material/fabric/msp/keystore/
+rm -R -f /home/jose/fabric-orderingservice/docker_images/0.cli_material/fabric/msp/keystore/
 cp -a /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/crypto-config/peerOrganizations/ibm.bft/users/User1@ibm.bft/. /home/jose/fabric-orderingservice/docker_images/0.cli_material/fabric/
 
-rm -R /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/fabric/msp/keystore/
+rm -R -f /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/fabric/msp/keystore/
 cp -a /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/crypto-config/peerOrganizations/ibm.bft/users/Admin@ibm.bft/. /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/fabric/
 
-rm -R /home/jose/fabric-orderingservice/docker_images/1.cli_material/fabric/msp/keystore/
-cp -a /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/crypto-config/peerOrganizations/lasige.bft/users/User1@lasige.bft/. /home/jose/fabric-orderingservice/docker_images/1.cli_material/fabric/
-
-rm -R /home/jose/fabric-orderingservice/docker_images/admin.1.cli_material/fabric/msp/keystore/
-cp -a /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/crypto-config/peerOrganizations/lasige.bft/users/Admin@lasige.bft/. /home/jose/fabric-orderingservice/docker_images/admin.1.cli_material/fabric/
-
 #peers
-rm -R /home/jose/fabric-orderingservice/docker_images/0.peer_material/fabric/msp/keystore/
+rm -R -f /home/jose/fabric-orderingservice/docker_images/0.peer_material/fabric/msp/keystore/
 rsync -av --exclude='msp/config.yaml' /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/crypto-config/peerOrganizations/ibm.bft/peers/0.peer.ibm.bft/ /home/jose/fabric-orderingservice/docker_images/0.peer_material/fabric/
 
-rm -R /home/jose/fabric-orderingservice/docker_images/1.peer_material/fabric/msp/keystore/
+rm -R -f /home/jose/fabric-orderingservice/docker_images/1.peer_material/fabric/msp/keystore/
 rsync -av --exclude='msp/config.yaml' /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/crypto-config/peerOrganizations/ibm.bft/peers/1.peer.ibm.bft/ /home/jose/fabric-orderingservice/docker_images/1.peer_material/fabric/
 
-rm -R /home/jose/fabric-orderingservice/docker_images/2.peer_material/fabric/msp/keystore/
-rsync -av --exclude='msp/config.yaml' /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/crypto-config/peerOrganizations/lasige.bft/peers/0.peer.lasige.bft/ /home/jose/fabric-orderingservice/docker_images/2.peer_material/fabric/
-
-rm -R /home/jose/fabric-orderingservice/docker_images/3.peer_material/fabric/msp/keystore/
-rsync -av --exclude='msp/config.yaml' /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/crypto-config/peerOrganizations/lasige.bft/peers/1.peer.lasige.bft/ /home/jose/fabric-orderingservice/docker_images/3.peer_material/fabric/
-
 #frontend
-rm -R /home/jose/fabric-orderingservice/docker_images/1000.frontend_material/fabric/msp/keystore/
+rm -R -f /home/jose/fabric-orderingservice/docker_images/1000.frontend_material/fabric/msp/keystore/
+rm -R -f /home/jose/fabric-orderingservice/docker_images/1000.frontend_material/config/keys/
+
 cp -a /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/crypto-config/ordererOrganizations/frontend.bft/orderers/1000.frontend.bft/. /home/jose/fabric-orderingservice/docker_images/1000.frontend_material/fabric/
 
-rm -R /home/jose/fabric-orderingservice/docker_images/2000.frontend_material/fabric/msp/keystore/
+rm -R -f /home/jose/fabric-orderingservice/docker_images/2000.frontend_material/fabric/msp/keystore/
+rm -R -f /home/jose/fabric-orderingservice/docker_images/2000.frontend_material/config/keys/
+
 cp -a /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/crypto-config/ordererOrganizations/frontend.bft/orderers/2000.frontend.bft/. /home/jose/fabric-orderingservice/docker_images/2000.frontend_material/fabric/
 
 #nodes
-rm -R /home/jose/fabric-orderingservice/docker_images/0.node_material/msp/keystore/
+rm -R -f /home/jose/fabric-orderingservice/docker_images/0.node_material/msp/keystore/
+rm -R -f /home/jose/fabric-orderingservice/docker_images/0.node_material/config/keys/
+
 cp -a /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/crypto-config/ordererOrganizations/node.bft/orderers/0.node.bft/. /home/jose/fabric-orderingservice/docker_images/0.node_material/
 
-rm -R /home/jose/fabric-orderingservice/docker_images/1.node_material/msp/keystore/
+rm -R -f /home/jose/fabric-orderingservice/docker_images/1.node_material/msp/keystore/
+rm -R -f /home/jose/fabric-orderingservice/docker_images/1.node_material/config/keys/
 cp -a /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/crypto-config/ordererOrganizations/node.bft/orderers/1.node.bft/. /home/jose/fabric-orderingservice/docker_images/1.node_material/
 
-rm -R /home/jose/fabric-orderingservice/docker_images/2.node_material/msp/keystore/
+rm -R -f /home/jose/fabric-orderingservice/docker_images/2.node_material/msp/keystore/
+rm -R -f /home/jose/fabric-orderingservice/docker_images/2.node_material/config/keys/
 cp -a /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/crypto-config/ordererOrganizations/node.bft/orderers/2.node.bft/. /home/jose/fabric-orderingservice/docker_images/2.node_material/
 
-rm -R /home/jose/fabric-orderingservice/docker_images/3.node_material/msp/keystore/
+rm -R -f /home/jose/fabric-orderingservice/docker_images/3.node_material/msp/keystore/
+rm -R -f /home/jose/fabric-orderingservice/docker_images/3.node_material/config/keys/
 cp -a /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/crypto-config/ordererOrganizations/node.bft/orderers/3.node.bft/. /home/jose/fabric-orderingservice/docker_images/3.node_material/
 
 ########### copiar assinaturas (nodos, frontends)
@@ -81,13 +73,10 @@ cp -a /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/crypt
 mkdir -p /home/jose/fabric-orderingservice/docker_images/1000.frontend_material/config/keys/
 cp /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/crypto-config/ordererOrganizations/node.bft/orderers/0.node.bft/msp/signcerts/0.node.bft-cert.pem /home/jose/fabric-orderingservice/docker_images/1000.frontend_material/config/keys/cert0.pem
 
-mkdir -p /home/jose/fabric-orderingservice/docker_images/1000.frontend_material/config/keys/
 cp /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/crypto-config/ordererOrganizations/node.bft/orderers/1.node.bft/msp/signcerts/1.node.bft-cert.pem /home/jose/fabric-orderingservice/docker_images/1000.frontend_material/config/keys/cert1.pem
 
-mkdir -p /home/jose/fabric-orderingservice/docker_images/1000.frontend_material/config/keys/
 cp /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/crypto-config/ordererOrganizations/node.bft/orderers/2.node.bft/msp/signcerts/2.node.bft-cert.pem /home/jose/fabric-orderingservice/docker_images/1000.frontend_material/config/keys/cert2.pem
 
-mkdir -p /home/jose/fabric-orderingservice/docker_images/1000.frontend_material/config/keys/
 cp /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/crypto-config/ordererOrganizations/node.bft/orderers/3.node.bft/msp/signcerts/3.node.bft-cert.pem /home/jose/fabric-orderingservice/docker_images/1000.frontend_material/config/keys/cert3.pem
 
 #frontends
