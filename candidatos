@@ -1,0 +1,18 @@
+array (
+  'lucena' => 
+  array (
+    'doctype' => 'candidato',
+    'id' => 'lucena',
+    'nome' => 'Jose Lucena',
+    'email' => 'jh@ibm.com.br',
+    'numerovotos' => 0,
+  ),
+  'vmachado' => 
+  array (
+    'doctype' => 'candidato',
+    'id' => 'vmachado',
+    'nome' => 'Vinicius Machado',
+    'email' => 'vm@ibm.com.br',
+    'numerovotos' => 0,
+  ),
+)

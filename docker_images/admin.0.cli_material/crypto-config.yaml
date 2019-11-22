@@ -34,11 +34,9 @@ PeerOrgs:
     Domain: ibm.bft
     EnableNodeOUs: true
     Template:
-
       Count: 2
       Hostname: "{{.Index}}.peer"
 
 
     Users:
-      Count: 1
-
+      Count: 11

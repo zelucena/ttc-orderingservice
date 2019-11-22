@@ -1,0 +1,228 @@
+array (
+  'doctype' => 'votacao',
+  'id' => 'votacao',
+  'iniciocandidatura' => '2019-11-21 17:30:00',
+  'terminocandidatura' => '2019-11-21 19:34:00',
+  'iniciovotacao' => '2019-11-21 19:34:01',
+  'terminovotacao' => '2019-11-21 19:37:00',
+  'candidatos' => 
+  array (
+    'lucena' => 
+    array (
+      'doctype' => 'candidato',
+      'id' => 'lucena',
+      'nome' => 'Jose Lucena',
+      'email' => 'jh@ibm.com.br',
+      'numerovotos' => 0,
+    ),
+    'vmachado' => 
+    array (
+      'doctype' => 'candidato',
+      'id' => 'vmachado',
+      'nome' => 'Vinicius Machado',
+      'email' => 'vm@ibm.com.br',
+      'numerovotos' => 0,
+    ),
+  ),
+  'votos' => 
+  array (
+    '093127a08ffca9c76b13c888dc5a35242d426df68ce8680d58a1271ba9773317' => 
+    array (
+      'doctype' => 'voto',
+      'votante' => 
+      array (
+        'doctype' => 'votante',
+        'id' => '093127a08ffca9c76b13c888dc5a35242d426df68ce8680d58a1271ba9773317',
+      ),
+      'timestamp' => 'seconds:1574364890 nanos:500588067 ',
+      'candidato' => 
+      array (
+        'doctype' => 'candidato',
+        'id' => 'lucena',
+        'nome' => 'Jose Lucena',
+        'email' => 'jh@ibm.com.br',
+        'numerovotos' => 0,
+      ),
+    ),
+    '0c3d4dcbccfb1146472aa0200d58b2cb9ac5f26e0cf46d87e687154dc7fd2319' => 
+    array (
+      'doctype' => 'voto',
+      'votante' => 
+      array (
+        'doctype' => 'votante',
+        'id' => '0c3d4dcbccfb1146472aa0200d58b2cb9ac5f26e0cf46d87e687154dc7fd2319',
+      ),
+      'timestamp' => 'seconds:1574364883 nanos:533263591 ',
+      'candidato' => 
+      array (
+        'doctype' => 'candidato',
+        'id' => 'lucena',
+        'nome' => 'Jose Lucena',
+        'email' => 'jh@ibm.com.br',
+        'numerovotos' => 0,
+      ),
+    ),
+    '24c6d1d1907d1e6fb38ed2f288bac4947f9506745fc254faff4f9c1d947f4c3e' => 
+    array (
+      'doctype' => 'voto',
+      'votante' => 
+      array (
+        'doctype' => 'votante',
+        'id' => '24c6d1d1907d1e6fb38ed2f288bac4947f9506745fc254faff4f9c1d947f4c3e',
+      ),
+      'timestamp' => 'seconds:1574364877 nanos:384714225 ',
+      'candidato' => 
+      array (
+        'doctype' => 'candidato',
+        'id' => 'lucena',
+        'nome' => 'Jose Lucena',
+        'email' => 'jh@ibm.com.br',
+        'numerovotos' => 0,
+      ),
+    ),
+    '2838ee578ac8272d8a7ad296380437aff42e0b2ff88b8556512e2c8542d872ce' => 
+    array (
+      'doctype' => 'voto',
+      'votante' => 
+      array (
+        'doctype' => 'votante',
+        'id' => '2838ee578ac8272d8a7ad296380437aff42e0b2ff88b8556512e2c8542d872ce',
+      ),
+      'timestamp' => 'seconds:1574364849 nanos:971505275 ',
+      'candidato' => 
+      array (
+        'doctype' => 'candidato',
+        'id' => 'vmachado',
+        'nome' => 'Vinicius Machado',
+        'email' => 'vm@ibm.com.br',
+        'numerovotos' => 0,
+      ),
+    ),
+    '6e0a8296eddc5d10b5158c7f2cf3e90bf3380f96a1a7102535bfaa78a5f9dd11' => 
+    array (
+      'doctype' => 'voto',
+      'votante' => 
+      array (
+        'doctype' => 'votante',
+        'id' => '6e0a8296eddc5d10b5158c7f2cf3e90bf3380f96a1a7102535bfaa78a5f9dd11',
+      ),
+      'timestamp' => 'seconds:1574364880 nanos:206998596 ',
+      'candidato' => 
+      array (
+        'doctype' => 'candidato',
+        'id' => 'lucena',
+        'nome' => 'Jose Lucena',
+        'email' => 'jh@ibm.com.br',
+        'numerovotos' => 0,
+      ),
+    ),
+    '77944615a15638a6f5599797cc3c20e8f5b8e25db5a9b9cc36f2216d6a72ba82' => 
+    array (
+      'doctype' => 'voto',
+      'votante' => 
+      array (
+        'doctype' => 'votante',
+        'id' => '77944615a15638a6f5599797cc3c20e8f5b8e25db5a9b9cc36f2216d6a72ba82',
+      ),
+      'timestamp' => 'seconds:1574364887 nanos:543179594 ',
+      'candidato' => 
+      array (
+        'doctype' => 'candidato',
+        'id' => 'lucena',
+        'nome' => 'Jose Lucena',
+        'email' => 'jh@ibm.com.br',
+        'numerovotos' => 0,
+      ),
+    ),
+    '7f1e5a7e3faec51b30fe5aa04442cdde10d9018892e92e51a0d7c84028aff67c' => 
+    array (
+      'doctype' => 'voto',
+      'votante' => 
+      array (
+        'doctype' => 'votante',
+        'id' => '7f1e5a7e3faec51b30fe5aa04442cdde10d9018892e92e51a0d7c84028aff67c',
+      ),
+      'timestamp' => 'seconds:1574364873 nanos:888415750 ',
+      'candidato' => 
+      array (
+        'doctype' => 'candidato',
+        'id' => 'lucena',
+        'nome' => 'Jose Lucena',
+        'email' => 'jh@ibm.com.br',
+        'numerovotos' => 0,
+      ),
+    ),
+    '9a329376c2bedc49672df9ed389a66625a66f04bbd3491ec87ee749d3d9b0bbb' => 
+    array (
+      'doctype' => 'voto',
+      'votante' => 
+      array (
+        'doctype' => 'votante',
+        'id' => '9a329376c2bedc49672df9ed389a66625a66f04bbd3491ec87ee749d3d9b0bbb',
+      ),
+      'timestamp' => 'seconds:1574364903 nanos:530805848 ',
+      'candidato' => 
+      array (
+        'doctype' => 'candidato',
+        'id' => 'vmachado',
+        'nome' => 'Vinicius Machado',
+        'email' => 'vm@ibm.com.br',
+        'numerovotos' => 0,
+      ),
+    ),
+    'd35fdf93547adb27b227d2768770721f057bded609904ce4f0c72262c5d1c697' => 
+    array (
+      'doctype' => 'voto',
+      'votante' => 
+      array (
+        'doctype' => 'votante',
+        'id' => 'd35fdf93547adb27b227d2768770721f057bded609904ce4f0c72262c5d1c697',
+      ),
+      'timestamp' => 'seconds:1574364859 nanos:664569204 ',
+      'candidato' => 
+      array (
+        'doctype' => 'candidato',
+        'id' => 'vmachado',
+        'nome' => 'Vinicius Machado',
+        'email' => 'vm@ibm.com.br',
+        'numerovotos' => 0,
+      ),
+    ),
+    'ee33144dabec2eb65344ea8df8c74c12d007cecd45b6dbfd246dffa5e85a5f63' => 
+    array (
+      'doctype' => 'voto',
+      'votante' => 
+      array (
+        'doctype' => 'votante',
+        'id' => 'ee33144dabec2eb65344ea8df8c74c12d007cecd45b6dbfd246dffa5e85a5f63',
+      ),
+      'timestamp' => 'seconds:1574364893 nanos:364307076 ',
+      'candidato' => 
+      array (
+        'doctype' => 'candidato',
+        'id' => 'lucena',
+        'nome' => 'Jose Lucena',
+        'email' => 'jh@ibm.com.br',
+        'numerovotos' => 0,
+      ),
+    ),
+    'f7afd67f3d8b3cc88c99db8030ab2407cad272f21aa6bbf9cdee0d11caba1f3d' => 
+    array (
+      'doctype' => 'voto',
+      'votante' => 
+      array (
+        'doctype' => 'votante',
+        'id' => 'f7afd67f3d8b3cc88c99db8030ab2407cad272f21aa6bbf9cdee0d11caba1f3d',
+      ),
+      'timestamp' => 'seconds:1574364899 nanos:775270612 ',
+      'candidato' => 
+      array (
+        'doctype' => 'candidato',
+        'id' => 'vmachado',
+        'nome' => 'Vinicius Machado',
+        'email' => 'vm@ibm.com.br',
+        'numerovotos' => 0,
+      ),
+    ),
+  ),
+)

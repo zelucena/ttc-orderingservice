@@ -1,7 +1,14 @@
 #criar rede 
-docker network create -d bridge bft_network
+sudo docker network create -d bridge bft_network
+
+
+# parar containers e remover a rede
 # sudo docker container stop $(sudo docker container ls -qa)
+# sudo docker network rm bft_network
+
 # gerar com administrador
+cd /home/jose/fabric-orderingservice/scripts/ && sudo ./admin0.sh
+
 cd bft-config/
 rm -R -f crypto-config
 cryptogen generate --config=/bft-config/crypto-config.yaml
@@ -17,8 +24,13 @@ sudo ~/fabric-orderingservice/scripts/mate-run.sh
 configtxgen -profile BFTChannel -outputCreateChannelTx channel.tx -channelID votacao01 -configPath="/bft-config/"
 configtxgen -profile BFTChannel -outputAnchorPeersUpdate anchor.tx -channelID votacao01 -asOrg IBM -configPath="/bft-config/"
 
+# sem tls
 peer channel create -o 1000.frontend.bft:7050 -c votacao01 -f channel.tx
 peer channel update -o 1000.frontend.bft:7050 -c votacao01 -f anchor.tx
+
+# com tls
+peer channel create -o 1000.frontend.bft:7050 -c votacao01 -f channel.tx --tls --cafile=/bft-config/crypto-config/ordererOrganizations/frontend.bft/orderers/1000.frontend.bft/msp/tlscacerts/tlsca.frontend.bft-cert.pem
+peer channel update -o 1000.frontend.bft:7050 -c votacao01 -f anchor.tx  --tls --cafile=/bft-config/crypto-config/ordererOrganizations/frontend.bft/orderers/1000.frontend.bft/msp/tlscacerts/tlsca.frontend.bft-cert.pem
 
 # juntar ao bloco gênesis
 peer channel join -b /bft-config/votacao01.block
@@ -26,29 +38,27 @@ peer channel join -b /bft-config/votacao01.block
 # instalar chaincode
 cd $GOPATH/src/github.com/hyperledger && rm -r fabric && git clone https://github.com/hyperledger/fabric.git && cd fabric && git checkout release-1.4 && cd /
 cd $GOPATH/src/github.com/ && rm -R -f zelucena && go get github.com/zelucena/TTCFabric && cd /
-peer chaincode install -n VotacaoContract -v 1.4.3 -p github.com/zelucena/TTCFabric
-peer chaincode instantiate -o 2000.frontend.bft:7050 -C votacao01 -n VotacaoContract -v 1.4.2 -c '{"Args":["init"]}'
-# upgrade
-peer chaincode upgrade -o 1000.frontend.bft:7050 -C votacao01 -n VotacaoContract -v 1.4.3 -c '{"Args":["init"]}'
+peer chaincode install -n VotacaoContract -v 1.6.2 -p github.com/zelucena/TTCFabric
+peer chaincode instantiate -o 2000.frontend.bft:7050 -C votacao01 -n VotacaoContract -v 1.6.2 -c '{"Args":["init"]}'
+# upgrade (baixar novamente, instalar nova versao, depois rodar comando abaixo)
+peer chaincode upgrade -o 1000.frontend.bft:7050 -C votacao01 -n VotacaoContract -v 1.6.3 -c '{"Args":["init"]}'
 
 ## comandos na chaincode
 
 #cadastrar votacao
-peer chaincode invoke -C votacao01 -n VotacaoContract -c '{"Args": ["cadastrarVotacao", "10/11/2019 00:00:00", "10/12/2019 23:59:59", "10/11/2019 00:00:00", "10/12/2019 23:59:59"]}'
+peer chaincode invoke -C votacao01 -n VotacaoContract -c '{"Args": ["cadastrarVotacao", "21/11/2019 17:30:00", "21/11/2019 19:34:00", "21/11/2019 19:34:01", "21/11/2019 19:37:00"]}'
 
 #cadastrar candidatos
-peer chaincode invoke -C votacao01 -n VotacaoContract -c '{"Args": ["cadastrarCandidato", "lucena", "lucena.jh@gmail.com", "José Lucena"]}'
+peer chaincode invoke -C votacao01 -n VotacaoContract -c '{"Args": ["cadastrarCandidato", "lucena", "Jose Lucena", "jh@ibm.com.br"]}'
 
-peer chaincode invoke -C votacao01 -n VotacaoContract -c '{"Args": ["cadastrarCandidato", "silva", "silva@instituicao.br", "Joao da Silva"]}'
+peer chaincode invoke -C votacao01 -n VotacaoContract -c '{"Args": ["cadastrarCandidato", "vmachado", "Vinicius Machado", "vm@ibm.com.br"]}'
 
 #votar
 peer chaincode invoke -C votacao01 -n VotacaoContract -c '{"Args": ["votar", "lucena"]}'
 
-peer chaincode invoke -C votacao01 -n VotacaoContract -c '{"Args": ["votar", "silva"]}'
+peer chaincode invoke -C votacao01 -n VotacaoContract -c '{"Args": ["votar", "vmachado"]}'
 
 #get
-
-peer chaincode query -C votacao01 -n VotacaoContract -c '{"Args": ["getClientInfo"]}'
 
 peer chaincode query -C votacao01 -n VotacaoContract -c '{"Args": ["visualizarCandidatos"]}'
 

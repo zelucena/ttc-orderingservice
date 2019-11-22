@@ -1,132 +1,89 @@
 #!/bin/bash
+raiz=/home/jose/fabric-orderingservice/docker_images
+#id dos nodos participantes da rede
+cliIds=$(seq 0 10)
+nodeIds=$(seq 0 3)
+peerIds=$(seq 0 1)
+frontendIds=(1000 2000)
 
-#cada participante da rede possui seu próprio arquivo de configuração, portanto as configurações devem ser replicadas a partir dos modelos
+#cada participante da rede possui sua propria pasta de configuração, portanto as configurações devem ser replicadas a partir dos modelos
 #assumindo que as informações são geradas do admin ibm, copiar o crypto-material, o genesisblock, os certificados e chaves-privadas.
 ########### copiar genesisblock do admin ibm 0 para todas as instâncias
 
 #cli
-cp /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/genesisblock /home/jose/fabric-orderingservice/docker_images/0.cli_material/genesisblock
+for idcli in $cliIds; do
+	cp $raiz/admin.0.cli_material/genesisblock $raiz/$idcli.cli_material/genesisblock;
+done
 
 #nodes
-cp /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/genesisblock /home/jose/fabric-orderingservice/docker_images/0.node_material/genesisblock
-
-cp /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/genesisblock /home/jose/fabric-orderingservice/docker_images/1.node_material/genesisblock
-
-cp /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/genesisblock /home/jose/fabric-orderingservice/docker_images/2.node_material/genesisblock
-
-cp /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/genesisblock /home/jose/fabric-orderingservice/docker_images/3.node_material/genesisblock
+for idnode in $nodeIds; do
+	cp $raiz/admin.0.cli_material/genesisblock $raiz/$idnode.node_material/genesisblock;
+done
 
 #frontend
+for idfrontend in ${frontendIds[@]}; do
+cp $raiz/admin.0.cli_material/genesisblock $raiz/$idfrontend.frontend_material/genesisblock
+done
 
-cp /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/genesisblock /home/jose/fabric-orderingservice/docker_images/1000.frontend_material/genesisblock
-
-cp /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/genesisblock /home/jose/fabric-orderingservice/docker_images/2000.frontend_material/genesisblock
 
 ########### copiar crypto-material
-#clients
-rm -R -f /home/jose/fabric-orderingservice/docker_images/0.cli_material/fabric/msp/keystore/
-cp -a /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/crypto-config/peerOrganizations/ibm.bft/users/User1@ibm.bft/. /home/jose/fabric-orderingservice/docker_images/0.cli_material/fabric/
+#admin
+rm -R -f $raiz/admin.0.cli_material/fabric/msp/keystore/
+cp -a $raiz/admin.0.cli_material/crypto-config/peerOrganizations/ibm.bft/users/Admin@ibm.bft/. $raiz/admin.0.cli_material/fabric/
 
-rm -R -f /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/fabric/msp/keystore/
-cp -a /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/crypto-config/peerOrganizations/ibm.bft/users/Admin@ibm.bft/. /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/fabric/
+#clients
+for idcli in $cliIds; do
+((userid = $idcli + 1))
+rm -R -f $raiz/$idcli.cli_material/fabric/msp/keystore/
+cp -a $raiz/admin.0.cli_material/crypto-config/peerOrganizations/ibm.bft/users/User$userid@ibm.bft/. $raiz/$idcli.cli_material/fabric/
+done
 
 #peers
-rm -R -f /home/jose/fabric-orderingservice/docker_images/0.peer_material/fabric/msp/keystore/
-rsync -av --exclude='msp/config.yaml' /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/crypto-config/peerOrganizations/ibm.bft/peers/0.peer.ibm.bft/ /home/jose/fabric-orderingservice/docker_images/0.peer_material/fabric/
-
-rm -R -f /home/jose/fabric-orderingservice/docker_images/1.peer_material/fabric/msp/keystore/
-rsync -av --exclude='msp/config.yaml' /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/crypto-config/peerOrganizations/ibm.bft/peers/1.peer.ibm.bft/ /home/jose/fabric-orderingservice/docker_images/1.peer_material/fabric/
+for idpeer in $peerIds; do
+rm -R -f $raiz/$idpeer.peer_material/fabric/msp/keystore/
+rsync -av --exclude='msp/config.yaml' $raiz/admin.0.cli_material/crypto-config/peerOrganizations/ibm.bft/peers/$idpeer.peer.ibm.bft/ $raiz/$idpeer.peer_material/fabric/
+done
 
 #frontend
-rm -R -f /home/jose/fabric-orderingservice/docker_images/1000.frontend_material/fabric/msp/keystore/
-rm -R -f /home/jose/fabric-orderingservice/docker_images/1000.frontend_material/config/keys/
-
-cp -a /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/crypto-config/ordererOrganizations/frontend.bft/orderers/1000.frontend.bft/. /home/jose/fabric-orderingservice/docker_images/1000.frontend_material/fabric/
-
-rm -R -f /home/jose/fabric-orderingservice/docker_images/2000.frontend_material/fabric/msp/keystore/
-rm -R -f /home/jose/fabric-orderingservice/docker_images/2000.frontend_material/config/keys/
-
-cp -a /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/crypto-config/ordererOrganizations/frontend.bft/orderers/2000.frontend.bft/. /home/jose/fabric-orderingservice/docker_images/2000.frontend_material/fabric/
+for idfrontend in ${frontendIds[@]}; do
+rm -R -f $raiz/$idfrontend.frontend_material/fabric/msp/keystore/
+rm -R -f $raiz/$idfrontend.frontend_material/config/keys/
+cp -a $raiz/admin.0.cli_material/crypto-config/ordererOrganizations/frontend.bft/orderers/$idfrontend.frontend.bft/. $raiz/$idfrontend.frontend_material/fabric/
+done
 
 #nodes
-rm -R -f /home/jose/fabric-orderingservice/docker_images/0.node_material/msp/keystore/
-rm -R -f /home/jose/fabric-orderingservice/docker_images/0.node_material/config/keys/
-
-cp -a /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/crypto-config/ordererOrganizations/node.bft/orderers/0.node.bft/. /home/jose/fabric-orderingservice/docker_images/0.node_material/
-
-rm -R -f /home/jose/fabric-orderingservice/docker_images/1.node_material/msp/keystore/
-rm -R -f /home/jose/fabric-orderingservice/docker_images/1.node_material/config/keys/
-cp -a /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/crypto-config/ordererOrganizations/node.bft/orderers/1.node.bft/. /home/jose/fabric-orderingservice/docker_images/1.node_material/
-
-rm -R -f /home/jose/fabric-orderingservice/docker_images/2.node_material/msp/keystore/
-rm -R -f /home/jose/fabric-orderingservice/docker_images/2.node_material/config/keys/
-cp -a /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/crypto-config/ordererOrganizations/node.bft/orderers/2.node.bft/. /home/jose/fabric-orderingservice/docker_images/2.node_material/
-
-rm -R -f /home/jose/fabric-orderingservice/docker_images/3.node_material/msp/keystore/
-rm -R -f /home/jose/fabric-orderingservice/docker_images/3.node_material/config/keys/
-cp -a /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/crypto-config/ordererOrganizations/node.bft/orderers/3.node.bft/. /home/jose/fabric-orderingservice/docker_images/3.node_material/
+for idnode in $nodeIds; do
+	rm -R -f $raiz/$idnode.node_material/msp/keystore/
+	rm -R -f $raiz/$idnode.node_material/config/keys/
+	cp -a $raiz/admin.0.cli_material/crypto-config/ordererOrganizations/node.bft/orderers/$idnode.node.bft/. $raiz/$idnode.node_material/
+done
 
 ########### copiar assinaturas (nodos, frontends)
-# copiar todos os certificados para uma pasta, renomeando para nodos / frontends para cert<id>.pem. Replicar a pasta inteira com os certificados. A diferença é que em cada pasta a chave privada é individual
+# copiar todos os certificados para a pasta dos nodos e frontend, renomeando para nodos / frontends para cert<id>.pem. Replicar a pasta inteira com os certificados. A diferença é que em cada pasta a chave privada é individual do nodo / frontend correspondete;
 
-#nodes
-mkdir -p /home/jose/fabric-orderingservice/docker_images/1000.frontend_material/config/keys/
-cp /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/crypto-config/ordererOrganizations/node.bft/orderers/0.node.bft/msp/signcerts/0.node.bft-cert.pem /home/jose/fabric-orderingservice/docker_images/1000.frontend_material/config/keys/cert0.pem
-
-cp /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/crypto-config/ordererOrganizations/node.bft/orderers/1.node.bft/msp/signcerts/1.node.bft-cert.pem /home/jose/fabric-orderingservice/docker_images/1000.frontend_material/config/keys/cert1.pem
-
-cp /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/crypto-config/ordererOrganizations/node.bft/orderers/2.node.bft/msp/signcerts/2.node.bft-cert.pem /home/jose/fabric-orderingservice/docker_images/1000.frontend_material/config/keys/cert2.pem
-
-cp /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/crypto-config/ordererOrganizations/node.bft/orderers/3.node.bft/msp/signcerts/3.node.bft-cert.pem /home/jose/fabric-orderingservice/docker_images/1000.frontend_material/config/keys/cert3.pem
-
-#frontends
-cp /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/crypto-config/ordererOrganizations/frontend.bft/orderers/1000.frontend.bft/msp/signcerts/1000.frontend.bft-cert.pem /home/jose/fabric-orderingservice/docker_images/1000.frontend_material/config/keys/cert1000.pem
-
-cp /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/crypto-config/ordererOrganizations/frontend.bft/orderers/2000.frontend.bft/msp/signcerts/2000.frontend.bft-cert.pem /home/jose/fabric-orderingservice/docker_images/1000.frontend_material/config/keys/cert2000.pem
-
-##replicar a partir da configuração em 1000.frontend.bft
-#nodes
-cp -a /home/jose/fabric-orderingservice/docker_images/1000.frontend_material/config/keys/. /home/jose/fabric-orderingservice/docker_images/0.node_material/config/keys/
-
-cp -a /home/jose/fabric-orderingservice/docker_images/1000.frontend_material/config/keys/. /home/jose/fabric-orderingservice/docker_images/1.node_material/config/keys/
-
-cp -a /home/jose/fabric-orderingservice/docker_images/1000.frontend_material/config/keys/. /home/jose/fabric-orderingservice/docker_images/2.node_material/config/keys/
-
-cp -a /home/jose/fabric-orderingservice/docker_images/1000.frontend_material/config/keys/. /home/jose/fabric-orderingservice/docker_images/3.node_material/config/keys/
-
-#frontend
-cp -a /home/jose/fabric-orderingservice/docker_images/1000.frontend_material/config/keys/. /home/jose/fabric-orderingservice/docker_images/2000.frontend_material/config/keys/
-
+#frontend e nodes
+for idfrontend in ${frontendIds[@]}; do
+##copiar o certificado dos nodes
+	mkdir -p $raiz/$idfrontend.frontend_material/config/keys/
+	for idnode in $nodeIds; do
+		cp $raiz/admin.0.cli_material/crypto-config/ordererOrganizations/node.bft/orderers/$idnode.node.bft/msp/signcerts/$idnode.node.bft-cert.pem $raiz/$idfrontend.frontend_material/config/keys/cert$idnode.pem
+	done
+##copiar o certificado dos frontends
+	for innerfrontend in ${frontendIds[@]}; do
+		cp $raiz/admin.0.cli_material/crypto-config/ordererOrganizations/frontend.bft/orderers/$innerfrontend.frontend.bft/msp/signcerts/$innerfrontend.frontend.bft-cert.pem $raiz/$idfrontend.frontend_material/config/keys/cert$innerfrontend.pem
+	done
 ##copiar chave privada
-#frontend
-
-#1000
-cp -a /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/crypto-config/ordererOrganizations/frontend.bft/orderers/1000.frontend.bft/msp/keystore/. /home/jose/fabric-orderingservice/docker_images/1000.frontend_material/config/keys/
-
-mv /home/jose/fabric-orderingservice/docker_images/1000.frontend_material/config/keys/$(ls /home/jose/fabric-orderingservice/docker_images/1000.frontend_material/config/keys/ | grep _sk) /home/jose/fabric-orderingservice/docker_images/1000.frontend_material/config/keys/keystore.pem
-
-#2000
-cp -a /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/crypto-config/ordererOrganizations/frontend.bft/orderers/2000.frontend.bft/msp/keystore/. /home/jose/fabric-orderingservice/docker_images/2000.frontend_material/config/keys/
-
-mv /home/jose/fabric-orderingservice/docker_images/2000.frontend_material/config/keys/$(ls /home/jose/fabric-orderingservice/docker_images/2000.frontend_material/config/keys/ | grep _sk) /home/jose/fabric-orderingservice/docker_images/2000.frontend_material/config/keys/keystore.pem
+	cp -a $raiz/admin.0.cli_material/crypto-config/ordererOrganizations/frontend.bft/orderers/$idfrontend.frontend.bft/msp/keystore/. $raiz/$idfrontend.frontend_material/config/keys/
+	mv $raiz/$idfrontend.frontend_material/config/keys/$(ls $raiz/$idfrontend.frontend_material/config/keys/ | grep _sk) $raiz/$idfrontend.frontend_material/config/keys/keystore.pem
+done
 
 #nodes
-#0
-cp -a /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/crypto-config/ordererOrganizations/node.bft/orderers/0.node.bft/msp/keystore/. /home/jose/fabric-orderingservice/docker_images/0.node_material/config/keys/
-
-mv /home/jose/fabric-orderingservice/docker_images/0.node_material/config/keys/$(ls /home/jose/fabric-orderingservice/docker_images/0.node_material/config/keys/ | grep _sk) /home/jose/fabric-orderingservice/docker_images/0.node_material/config/keys/keystore.pem
-
-#1
-cp -a /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/crypto-config/ordererOrganizations/node.bft/orderers/1.node.bft/msp/keystore/. /home/jose/fabric-orderingservice/docker_images/1.node_material/config/keys/
-
-mv /home/jose/fabric-orderingservice/docker_images/1.node_material/config/keys/$(ls /home/jose/fabric-orderingservice/docker_images/1.node_material/config/keys/ | grep _sk) /home/jose/fabric-orderingservice/docker_images/1.node_material/config/keys/keystore.pem
-
-#2
-cp -a /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/crypto-config/ordererOrganizations/node.bft/orderers/2.node.bft/msp/keystore/. /home/jose/fabric-orderingservice/docker_images/2.node_material/config/keys/
-
-mv /home/jose/fabric-orderingservice/docker_images/2.node_material/config/keys/$(ls /home/jose/fabric-orderingservice/docker_images/2.node_material/config/keys/ | grep _sk) /home/jose/fabric-orderingservice/docker_images/2.node_material/config/keys/keystore.pem
-
-#3
-cp -a /home/jose/fabric-orderingservice/docker_images/admin.0.cli_material/crypto-config/ordererOrganizations/node.bft/orderers/3.node.bft/msp/keystore/. /home/jose/fabric-orderingservice/docker_images/3.node_material/config/keys/
-
-mv /home/jose/fabric-orderingservice/docker_images/3.node_material/config/keys/$(ls /home/jose/fabric-orderingservice/docker_images/3.node_material/config/keys/ | grep _sk) /home/jose/fabric-orderingservice/docker_images/3.node_material/config/keys/keystore.pem
+for idnode in $nodeIds; do
+#copiar as configuracoes do primeiro frontend
+	cp -a $raiz/${frontendIds[0]}.frontend_material/config/keys/ $raiz/$idnode.node_material/config/keys/
+#copiar a chave privada
+	rm -f $raiz/$idnode.node_material/config/keys/keystore.pem
+	cp -a $raiz/admin.0.cli_material/crypto-config/ordererOrganizations/node.bft/orderers/$idnode.node.bft/msp/keystore/. $raiz/$idnode.node_material/config/keys/
+#renomear arquivo movendo com o nome keystore.pem
+	mv $raiz/$idnode.node_material/config/keys/$(ls $raiz/$idnode.node_material/config/keys/ | grep _sk) $raiz/$idnode.node_material/config/keys/keystore.pem
+done
